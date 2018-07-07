@@ -1,4 +1,15 @@
-import { JsonController, Get, Post, HttpCode, BodyParam, Put, Param, NotFoundError, Body, BadRequestError, } from 'routing-controllers'
+import {
+    JsonController,
+    Get,
+    Post,
+    HttpCode,
+    BodyParam,
+    Put,
+    Param,
+    NotFoundError,
+    Body,
+    BadRequestError
+} from 'routing-controllers'
 import Game from './entity'
 
 // create consts for the colors and the board from the instructions
@@ -45,7 +56,8 @@ export default class GameController {
         @BodyParam("board") board: object,
         @Body() update: Partial<Game>
     ) {
-        let game = await Game.findOne(id);
+        const game = await Game.findOne(id);
+
         // if the game does not exist throw error
         if (!game) throw new NotFoundError("Cannot find game");
 
@@ -54,13 +66,12 @@ export default class GameController {
 
         //we are calling the function(that checks the moves at the board)
         // if there is more than one throws errors
-
         if (moves(board, game.board) > 1) throw new BadRequestError('One move at a time!');
 
         //if we dont have any errors then we change the data to our tables
-        game.color = color;
-        game.name = name;
-        game.board = board;
+        game.color = color ? color : game.color;
+        game.name = name ? name : game.name;
+        game.board = board ? board : game.board;
 
         return Game.merge(game, update).save();
     }
