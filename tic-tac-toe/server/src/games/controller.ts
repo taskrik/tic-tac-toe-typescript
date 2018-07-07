@@ -2,22 +2,17 @@ import { JsonController, Get, Post, HttpCode, BodyParam, Put, Param, NotFoundErr
 import Game from './entity'
 
 // create consts for the colors and the board from the instructions
-
-const selectedColors = ['red', 'blue', 'magenta', 'green', 'yellow']
-
-const defaultBoard = [
-    ['o', 'o', 'o'],
-    ['o', 'o', 'o'],
-    ['o', 'o', 'o']
-]
-
-const moves = (board1, board2) =>
-    board1
-        .map((row, y) => row.filter((cell, x) => board2[y][x] !== cell))
-        .reduce((a, b) => a.concat(b))
-        .length;
-
-        
+const selectedColors = ['red', 'blue', 'magenta', 'green', 'yellow'],
+    defaultBoard = [
+        ['o', 'o', 'o'],
+        ['o', 'o', 'o'],
+        ['o', 'o', 'o']
+    ],
+    moves = (board1, board2) =>
+        board1
+            .map((row, y) => row.filter((cell, x) => board2[y][x] !== cell))
+            .reduce((a, b) => a.concat(b))
+            .length;
 
 @JsonController()
 export default class GameController {
@@ -33,7 +28,6 @@ export default class GameController {
     createGame(
         @BodyParam("name") name: string
     ) {
-        
         const newGame = new Game()
 
         newGame.name = name
@@ -57,10 +51,10 @@ export default class GameController {
 
         // checks if there is a color and if the color is one from our array
         if (color && !selectedColors.includes(color)) throw new Error('Provide one of the following colors: red, blue, magenta, green, yellow');
-        
+
         //we are calling the function(that checks the moves at the board)
         // if there is more than one throws errors
-        
+
         if (moves(board, game.board) > 1) throw new BadRequestError('One move at a time!');
 
         //if we dont have any errors then we change the data to our tables
