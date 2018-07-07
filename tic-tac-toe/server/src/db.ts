@@ -23,6 +23,7 @@ class CustomNamingStrategy extends DefaultNamingStrategy implements NamingStrate
   }
 }
 
+
 export default () =>
   createConnection({
       type: "postgres",
