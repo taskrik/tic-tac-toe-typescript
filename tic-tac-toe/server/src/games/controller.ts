@@ -1,4 +1,4 @@
-import { JsonController, Get, Param, Post, HttpCode, BodyParam, } from 'routing-controllers'
+import { JsonController, Get, Post, HttpCode, BodyParam, } from 'routing-controllers'
 import Game from './entity'
 
 // create consts for the colors and the board from the instructions
@@ -37,12 +37,6 @@ export default class GameController {
         return newGame.save()
     }
 
-    @Get('/games/:id')
-    getGame(
-        @Param('id') id: number
-    ) {
-        return Game.findOne(id)
-    }
 
     
 
